@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  dev:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    
+    volumes:
+      # Mount the workspace
+      - ..:/workspaces/budgeting-app:cached
+      
+      # Cache volumes for faster rebuilds
+      - devcontainer-nuget:/home/vscode/.nuget
+      - devcontainer-npm:/home/vscode/.npm
+      - devcontainer-vscode-extensions:/home/vscode/.vscode-server/extensions
+      - devcontainer-vscode-extensions-insiders:/home/vscode/.vscode-server-insiders/extensions
+    
+    # Keep container running
+    command: sleep infinity
+    
+    # Network with other services
+    network_mode: service:sqlserver
+    
+    # Environment variables
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_CLI_TELEMETRY_OPTOUT=1
+      - DOTNET_NOLOGO=1
+    
+    # Run as vscode user
+    user: vscode
+    
+    # Ensure sqlserver starts first
+    depends_on:
+      - sqlserver
+
+volumes:
+  devcontainer-nuget:
+  devcontainer-npm:
+  devcontainer-vscode-extensions:
+  devcontainer-vscode-extensions-insiders:

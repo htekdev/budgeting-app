@@ -43,7 +43,7 @@
       "nodeGypDependencies": true
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
-      "version": "8.0",
+      "version": "9.0",
       "installUsingApt": true
     },
     "ghcr.io/devcontainers/features/terraform:1": {
@@ -64,7 +64,7 @@
       "dockerDashComposeVersion": "v2"
     }
   },
-  "postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+  "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/scripts/post-create.sh",
   "customizations": {
     "vscode": {
       "extensions": [

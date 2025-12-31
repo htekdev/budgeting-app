@@ -5,27 +5,37 @@ echo "========================================="
 echo "BudgetBuddy Dev Container Setup"
 echo "========================================="
 
+# Get the workspace directory (where the repo root is)
+WORKSPACE_DIR="${WORKSPACE_DIR:-/workspaces/budgeting-app}"
+
+# If we're in a subdirectory of workspaces, find the repo root
+if [ ! -f "$WORKSPACE_DIR/.devcontainer/devcontainer.json" ] && [ -f "$(pwd)/.devcontainer/devcontainer.json" ]; then
+  WORKSPACE_DIR="$(pwd)"
+fi
+
+echo "Working directory: $WORKSPACE_DIR"
+
 # Navigate to workspace
-cd /workspaces/budgeting-app
+cd "$WORKSPACE_DIR"
 
 # Install SQL Server tools
 echo ""
 echo "Step 1: Installing SQL Server tools..."
-bash .devcontainer/scripts/install-sql-tools.sh
+bash "$WORKSPACE_DIR/.devcontainer/scripts/install-sql-tools.sh"
 
 # Restore backend dependencies
 echo ""
 echo "Step 2: Restoring .NET dependencies..."
-cd src/backend
+cd "$WORKSPACE_DIR/src/backend"
 dotnet restore
-cd ../..
+cd "$WORKSPACE_DIR"
 
 # Install frontend dependencies
 echo ""
 echo "Step 3: Installing frontend dependencies..."
-cd src/frontend
+cd "$WORKSPACE_DIR/src/frontend"
 npm install
-cd ../..
+cd "$WORKSPACE_DIR"
 
 # Wait for SQL Server to be ready
 echo ""
@@ -48,7 +58,7 @@ if [ $attempt -lt $max_attempts ]; then
   # Apply EF Core migrations
   echo ""
   echo "Step 5: Applying database migrations..."
-  cd src/backend
+  cd "$WORKSPACE_DIR/src/backend"
   
   # Set connection string for migration
   export ConnectionStrings__DefaultConnection="Server=localhost;Database=BudgetBuddy;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
@@ -58,7 +68,7 @@ if [ $attempt -lt $max_attempts ]; then
     echo "Migration failed, but continuing setup. You can run migrations manually later."
   }
   
-  cd ../..
+  cd "$WORKSPACE_DIR"
 fi
 
 echo ""

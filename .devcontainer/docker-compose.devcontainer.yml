@@ -5,8 +5,8 @@ services:
     image: mcr.microsoft.com/devcontainers/base:ubuntu
     
     volumes:
-      # Mount the workspace
-      - ..:/workspaces/budgeting-app:cached
+      # Mount the workspace - use ${localWorkspaceFolder} to ensure correct path
+      - ..:/workspaces/${localWorkspaceFolderBasename:?}:cached
       
       # Cache volumes for faster rebuilds
       - devcontainer-nuget:/home/vscode/.nuget

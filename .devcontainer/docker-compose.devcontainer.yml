@@ -3,7 +3,7 @@ version: '3.8'
 services:
   dev:
     build:
-      context: .
+      context: .devcontainer
       dockerfile: Dockerfile
     
     volumes:

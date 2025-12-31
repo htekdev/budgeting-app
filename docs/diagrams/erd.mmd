@@ -1,0 +1,121 @@
+```mermaid
+erDiagram
+    Users ||--o{ Accounts : owns
+    Users ||--o{ Categories : creates
+    Users ||--o{ Transactions : records
+    Users ||--o{ Budgets : sets
+    Users ||--o{ RecurringTransactions : creates
+    Users ||--o{ Goals : tracks
+    Users ||--o{ AuditEvents : generates
+    
+    Accounts ||--o{ Transactions : "has (from)"
+    Accounts ||--o{ Transactions : "has (to)"
+    Accounts ||--o{ RecurringTransactions : "has"
+    
+    Categories ||--o{ Categories : "parent of"
+    Categories ||--o{ Transactions : categorizes
+    Categories ||--o{ Budgets : "budgeted for"
+    Categories ||--o{ RecurringTransactions : categorizes
+    
+    Users {
+        int Id PK
+        string Username UK
+        string Email UK
+        string PasswordHash
+        bool IsActive
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+    
+    Accounts {
+        int Id PK
+        int UserId FK
+        string Name
+        string Type
+        decimal Balance
+        string Currency
+        bool IsActive
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+    
+    Categories {
+        int Id PK
+        int UserId FK
+        string Name
+        string Type
+        int ParentCategoryId FK
+        string Icon
+        string Color
+        bool IsActive
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+    
+    Transactions {
+        int Id PK
+        int UserId FK
+        int AccountId FK
+        int CategoryId FK
+        string Type
+        decimal Amount
+        string Description
+        date TransactionDate
+        int ToAccountId FK
+        string Notes
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+    
+    Budgets {
+        int Id PK
+        int UserId FK
+        int CategoryId FK
+        date Month
+        decimal Amount
+        string Notes
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+    
+    RecurringTransactions {
+        int Id PK
+        int UserId FK
+        int AccountId FK
+        int CategoryId FK
+        string Type
+        decimal Amount
+        string Description
+        string Frequency
+        date StartDate
+        date EndDate
+        date NextOccurrence
+        int ToAccountId FK
+        bool IsActive
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+    
+    Goals {
+        int Id PK
+        int UserId FK
+        string Name
+        decimal TargetAmount
+        decimal CurrentAmount
+        date TargetDate
+        string Description
+        bool IsCompleted
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+    
+    AuditEvents {
+        int Id PK
+        int UserId FK
+        string EntityType
+        int EntityId
+        string Action
+        string Changes
+        datetime Timestamp
+    }
+```

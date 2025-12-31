@@ -1,0 +1,79 @@
+# Data Module - Azure SQL Database
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
+variable "location" {
+  description = "Azure region"
+  type        = string
+}
+
+variable "resource_group_name" {
+  description = "Resource group name"
+  type        = string
+}
+
+variable "project_name" {
+  description = "Project name"
+  type        = string
+}
+
+variable "sql_admin_password" {
+  description = "SQL Server administrator password"
+  type        = string
+  sensitive   = true
+}
+
+variable "tags" {
+  description = "Tags for resources"
+  type        = map(string)
+  default     = {}
+}
+
+# Azure SQL Server
+resource "azurerm_mssql_server" "main" {
+  name                         = "sql-${var.project_name}-${var.environment}"
+  resource_group_name          = var.resource_group_name
+  location                     = var.location
+  version                      = "12.0"
+  administrator_login          = "sqladmin"
+  administrator_login_password = var.sql_admin_password
+  minimum_tls_version          = "1.2"
+
+  tags = var.tags
+}
+
+# Azure SQL Database
+resource "azurerm_mssql_database" "main" {
+  name      = "sqldb-${var.project_name}-${var.environment}"
+  server_id = azurerm_mssql_server.main.id
+  sku_name  = var.environment == "prod" ? "S1" : "Basic"
+
+  tags = var.tags
+}
+
+# Firewall rule to allow Azure services
+resource "azurerm_mssql_firewall_rule" "azure_services" {
+  name             = "AllowAzureServices"
+  server_id        = azurerm_mssql_server.main.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
+
+output "sql_server_fqdn" {
+  description = "Fully qualified domain name of the SQL Server"
+  value       = azurerm_mssql_server.main.fully_qualified_domain_name
+}
+
+output "sql_database_name" {
+  description = "Name of the SQL Database"
+  value       = azurerm_mssql_database.main.name
+}
+
+output "sql_connection_string" {
+  description = "SQL Server connection string (sensitive)"
+  value       = "Server=tcp:${azurerm_mssql_server.main.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.main.name};Persist Security Info=False;User ID=sqladmin;Password=${var.sql_admin_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  sensitive   = true
+}

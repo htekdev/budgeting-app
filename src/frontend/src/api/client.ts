@@ -1,6 +1,24 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+// Detect if running in Codespaces and construct API URL appropriately
+const getAPIBaseURL = (): string => {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+
+  // In Codespaces, use the current hostname with port 5230 (or the actual port)
+  if (window.location.hostname.includes('github.dev') || window.location.hostname.includes('codespaces')) {
+    const protocol = window.location.protocol;
+    const hostname = window.location.hostname;
+    // Codespaces port forwarding uses different port patterns
+    return `${protocol}//${hostname}`;
+  }
+
+  // Default to localhost for local development
+  return 'http://localhost:5000';
+};
+
+const API_BASE_URL = getAPIBaseURL();
 
 export const api = axios.create({
   baseURL: `${API_BASE_URL}/api/v1`,

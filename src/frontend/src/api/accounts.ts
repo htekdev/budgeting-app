@@ -1,5 +1,5 @@
 import api from './client';
-import { Account } from '../types';
+import type { Account } from '../types';
 
 export const accountsApi = {
   getAll: async (userId: number = 1) => {

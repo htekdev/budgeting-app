@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using BudgetBuddy.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,15 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "BudgetBuddy API", 
-        Version = "v1",
-        Description = "A budgeting application API showcasing GitHub Copilot capabilities"
-    });
-});
+builder.Services.AddSwaggerGen();
 
 // Add DbContext
 builder.Services.AddDbContext<BudgetBuddyDbContext>(options =>
@@ -30,9 +23,30 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        var allowedOrigins = new[]
+        {
+            "http://localhost:5173",
+            "https://localhost:5173"
+        };
+
+        // In development, also allow Codespaces domains
+        if (builder.Environment.IsDevelopment())
+        {
+            policy.SetIsOriginAllowed(origin =>
+                allowedOrigins.Contains(origin) ||
+                origin.Contains("github.dev") ||
+                origin.Contains("codespaces") ||
+                origin.StartsWith("http://localhost") ||
+                origin.StartsWith("https://localhost"))
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+        else
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
     });
 });
 

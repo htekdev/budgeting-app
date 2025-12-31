@@ -14,5 +14,5 @@ public class User : BaseEntity
     public virtual ICollection<Budget> Budgets { get; set; } = new List<Budget>();
     public virtual ICollection<RecurringTransaction> RecurringTransactions { get; set; } = new List<RecurringTransaction>();
     public virtual ICollection<Goal> Goals { get; set; } = new List<Goal>();
-    public virtual ICollection<AuditEvent> AuditEvents { get; set} = new List<AuditEvent>();
+    public virtual ICollection<AuditEvent> AuditEvents { get; set; } = new List<AuditEvent>();
 }

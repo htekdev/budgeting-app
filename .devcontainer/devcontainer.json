@@ -37,7 +37,7 @@
       "installYarnUsingApt": true
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
-      "version": "8.0",
+      "version": "10.0",
       "installUsingApt": true
     },
     "ghcr.io/devcontainers/features/terraform:1": {
@@ -72,7 +72,9 @@
         "redhat.vscode-yaml",
         "eamodio.gitlens",
         "ms-vscode.vscode-typescript-next",
-        "firsttris.vscode-jest-runner"
+        "firsttris.vscode-jest-runner",
+        "yzhang.markdown-all-in-one",
+        "bierner.markdown-mermaid"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",

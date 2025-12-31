@@ -43,7 +43,7 @@
       "nodeGypDependencies": true
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
-      "version": "9.0",
+      "version": "latest",
       "installUsingApt": true
     },
     "ghcr.io/devcontainers/features/terraform:1": {

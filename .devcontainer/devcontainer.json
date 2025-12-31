@@ -64,7 +64,7 @@
       "dockerDashComposeVersion": "v2"
     }
   },
-  "postCreateCommand": "bash /workspaces/budgeting-app/.devcontainer/scripts/post-create.sh",
+  "postCreateCommand": "bash /tmp/devcontainer-scripts/post-create.sh",
   "customizations": {
     "vscode": {
       "extensions": [

@@ -21,7 +21,7 @@ cd "$WORKSPACE_DIR"
 # Install SQL Server tools
 echo ""
 echo "Step 1: Installing SQL Server tools..."
-bash "$WORKSPACE_DIR/.devcontainer/scripts/install-sql-tools.sh"
+bash /tmp/devcontainer-scripts/install-sql-tools.sh
 
 # Restore backend dependencies
 echo ""

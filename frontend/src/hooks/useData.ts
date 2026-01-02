@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Budget, Transaction } from '../types';
+import type { Budget, Transaction } from '../types';
 import { budgetService, transactionService } from '../services/api';
 
 export function useBudgets(userId?: string) {

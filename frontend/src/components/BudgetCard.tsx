@@ -1,4 +1,4 @@
-import { Budget } from '../types';
+import type { Budget } from '../types';
 
 interface BudgetCardProps {
   budget: Budget;

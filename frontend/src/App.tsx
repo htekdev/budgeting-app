@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Budget } from './types';
+import type { Budget } from './types';
 import { useBudgets, useTransactions } from './hooks/useData';
 import { BudgetCard } from './components/BudgetCard';
 import { TransactionList } from './components/TransactionList';
@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
-  const { budgets, loading: budgetsLoading, error: budgetsError, refetch: refetchBudgets } = useBudgets('demo-user');
+  const { budgets, loading: budgetsLoading, error: budgetsError } = useBudgets('demo-user');
   const { transactions, loading: transactionsLoading, error: transactionsError, refetch: refetchTransactions } = useTransactions(selectedBudget?.id);
 
   const handleBudgetSelect = (budget: Budget) => {

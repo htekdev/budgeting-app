@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CreateTransactionDto } from '../types';
+import type { CreateTransactionDto } from '../types';
 import { transactionService } from '../services/api';
 
 interface AddTransactionFormProps {

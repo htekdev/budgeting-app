@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: budgetbuddy-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q "SELECT 1" -C || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - budgetbuddy-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: budgetbuddy-backend
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=BudgetBuddyDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app/src
+    networks:
+      - budgetbuddy-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: budgetbuddy-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    volumes:
+      - ./frontend:/app/src
+      - /app/src/node_modules
+    networks:
+      - budgetbuddy-network
+    depends_on:
+      - backend
+
+volumes:
+  sqldata:
+    name: budgetbuddy_sqldata
+
+networks:
+  budgetbuddy-network:
+    name: budgetbuddy_network
+    driver: bridge

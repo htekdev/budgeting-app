@@ -1,0 +1,54 @@
+{
+  "name": "BudgetBuddy Dev Container",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "backend",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [3000, 5000, 1433],
+  "portsAttributes": {
+    "3000": {
+      "label": "Frontend",
+      "onAutoForward": "notify"
+    },
+    "5000": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "1433": {
+      "label": "SQL Server",
+      "onAutoForward": "silent"
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "10.0"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-mssql.mssql",
+        "hashicorp.terraform",
+        "github.copilot",
+        "github.copilot-chat"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[csharp]": {
+          "editor.defaultFormatter": "ms-dotnettools.csharp"
+        }
+      }
+    }
+  },
+  "postCreateCommand": "cd /workspace/backend && dotnet restore && cd /workspace/frontend && npm install",
+  "remoteUser": "vscode"
+}

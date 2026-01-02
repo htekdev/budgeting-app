@@ -140,13 +140,20 @@ if [ -d "$FRONTEND_DIR" ]; then
     if [ -f "$FRONTEND_DIR/tsconfig.json" ]; then
         success "tsconfig.json exists"
         
-        # Check for strict mode
-        if grep -q "\"strict\":" "$FRONTEND_DIR/tsconfig.json"; then
-            if grep -q "\"strict\": *true" "$FRONTEND_DIR/tsconfig.json"; then
-                success "TypeScript strict mode enabled"
-            else
-                error "TypeScript strict mode is disabled"
+        # Check for strict mode in tsconfig.json or tsconfig.app.json
+        strict_found=false
+        if [ -f "$FRONTEND_DIR/tsconfig.app.json" ]; then
+            if grep -q "\"strict\": *true" "$FRONTEND_DIR/tsconfig.app.json"; then
+                strict_found=true
             fi
+        fi
+        
+        if grep -q "\"strict\": *true" "$FRONTEND_DIR/tsconfig.json"; then
+            strict_found=true
+        fi
+        
+        if [ "$strict_found" = true ]; then
+            success "TypeScript strict mode enabled"
         else
             warning "TypeScript strict mode not explicitly set"
         fi

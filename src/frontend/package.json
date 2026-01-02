@@ -4,10 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "test": "echo 'Frontend tests not yet implemented' && exit 0",
+    "type-check": "tsc --noEmit",
+    "generate:client": "echo 'API client generation not yet implemented' && echo 'Run: npx swagger-typescript-api -p http://localhost:5000/openapi/v1.json -o ./src/api -n client.ts'"
   },
   "dependencies": {
     "axios": "^1.13.2",

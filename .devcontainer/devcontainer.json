@@ -7,15 +7,17 @@
   "service": "dev",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "runServices": ["sqlserver"],
-  "forwardPorts": [5173, 5000, 1433],
+  "forwardPorts": [5173, 5230, 1433],
   "portsAttributes": {
     "5173": {
       "label": "Frontend",
-      "onAutoForward": "notify"
+      "onAutoForward": "notify",
+      "visibility": "public"
     },
-    "5000": {
+    "5230": {
       "label": "Backend API",
-      "onAutoForward": "notify"
+      "onAutoForward": "notify",
+      "visibility": "public"
     },
     "1433": {
       "label": "SQL Server",

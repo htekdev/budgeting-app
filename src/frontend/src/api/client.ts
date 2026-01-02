@@ -6,12 +6,12 @@ const getAPIBaseURL = (): string => {
     return import.meta.env.VITE_API_BASE_URL;
   }
 
-  // In Codespaces, use the current hostname with port 5230 (or the actual port)
+  // In Codespaces, port forwarding uses subdomain format
   if (window.location.hostname.includes('github.dev') || window.location.hostname.includes('codespaces')) {
     const protocol = window.location.protocol;
-    const hostname = window.location.hostname;
-    // Codespaces port forwarding uses different port patterns
-    return `${protocol}//${hostname}`;
+    // Replace the frontend port (5173) with backend port (5230) in the subdomain
+    const backendHostname = window.location.hostname.replace('-5173.', '-5230.');
+    return `${protocol}//${backendHostname}`;
   }
 
   // Default to localhost for local development

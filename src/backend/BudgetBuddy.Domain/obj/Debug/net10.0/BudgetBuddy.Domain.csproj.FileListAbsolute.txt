@@ -1,0 +1,12 @@
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/bin/Debug/net10.0/BudgetBuddy.Domain.deps.json
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/bin/Debug/net10.0/BudgetBuddy.Domain.dll
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/bin/Debug/net10.0/BudgetBuddy.Domain.pdb
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/BudgetBuddy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/BudgetBuddy.Domain.AssemblyInfoInputs.cache
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/BudgetBuddy.Domain.AssemblyInfo.cs
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/BudgetBuddy.Domain.csproj.CoreCompileInputs.cache
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/BudgetBuddy.Domain.sourcelink.json
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/BudgetBuddy.Domain.dll
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/refint/BudgetBuddy.Domain.dll
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/BudgetBuddy.Domain.pdb
+/home/runner/work/budgeting-app/budgeting-app/src/backend/BudgetBuddy.Domain/obj/Debug/net10.0/ref/BudgetBuddy.Domain.dll

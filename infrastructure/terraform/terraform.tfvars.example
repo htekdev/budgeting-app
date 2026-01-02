@@ -1,0 +1,32 @@
+# Example Terraform Variables
+# Copy this file to terraform.tfvars and fill in your values
+# NEVER commit terraform.tfvars - it's in .gitignore
+
+# Environment name (dev, staging, prod)
+environment = "dev"
+
+# Azure region for all resources
+location = "eastus"
+
+# Application name (used in resource naming)
+app_name = "budgetbuddy"
+
+# SQL Server admin username
+sql_admin_username = "sqladmin"
+
+# SQL Server admin password
+# IMPORTANT: Use a strong password with:
+# - At least 12 characters
+# - Uppercase and lowercase letters
+# - Numbers
+# - Special characters
+sql_admin_password = "CHANGE_ME_YourStrong@Passw0rd123!"
+
+# Resource tags
+tags = {
+  Application = "BudgetBuddy"
+  Environment = "dev"
+  ManagedBy   = "Terraform"
+  Owner       = "YourTeam"
+  CostCenter  = "Engineering"
+}

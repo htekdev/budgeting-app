@@ -1,0 +1,100 @@
+name: Lint and Format
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint-backend:
+    name: Lint C# Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore backend/BudgetBuddy.Api/BudgetBuddy.Api.csproj
+
+    - name: Format check
+      run: dotnet format backend/BudgetBuddy.Api/BudgetBuddy.Api.csproj --verify-no-changes --verbosity diagnostic
+
+  lint-frontend:
+    name: Lint TypeScript/React Code
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install dependencies
+      working-directory: frontend
+      run: npm ci
+
+    - name: Run ESLint
+      working-directory: frontend
+      run: npm run lint
+
+  lint-terraform:
+    name: Lint Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: '1.6.0'
+
+    - name: Terraform Format Check
+      working-directory: infrastructure/terraform
+      run: terraform fmt -check -recursive
+
+    - name: Terraform Init
+      working-directory: infrastructure/terraform
+      run: terraform init -backend=false
+
+    - name: Terraform Validate
+      working-directory: infrastructure/terraform
+      run: terraform validate
+
+  lint-markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Lint Markdown files
+      uses: nosborn/github-action-markdown-cli@v3.3.0
+      with:
+        files: .
+        config_file: .markdownlint.json
+        ignore_files: node_modules/
+
+  lint-yaml:
+    name: Lint YAML
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Lint YAML files
+      uses: ibiqlik/action-yamllint@v3
+      with:
+        file_or_dir: .github/workflows/
+        config_file: .yamllint.yml
+        strict: true
